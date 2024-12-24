@@ -4,12 +4,18 @@ import logger
 from recordSet import *
 
 class coreSQL:
-    def __init__(self, config):
+    def __init__(self, user, password, database, host='localhost'):
         self.db_conn = None
-        self.config = config
+        self.config = {
+            'host': host,
+            'user': user,
+            'password': password,
+            'database': database
+        }
         self.tables = []
 
         self.connect()
+        print(self.db_conn)
         self.get_list_of_tables()
 
     def connect(self):
@@ -46,7 +52,7 @@ class coreSQL:
     def get_list_of_tables(self):
         self.tables = []
         if self.is_connected():
-            rst = self.query("SHOW TABLES")
+            rst = self.query("SHOW TABLES;")
             col = rst.nameOf(0)
             for row in rst:
                 self.tables += [row[col],]
@@ -57,3 +63,5 @@ class coreSQL:
 
         # The table exists
         return self.query("DESCRIBE {}".format(table_name))
+
+    

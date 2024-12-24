@@ -3,6 +3,8 @@
 import sys
 sys.path.insert(0, '../lib')
 
+import inspect
+import dataclasses
 from dataclasses import dataclass, field
 
 from coreSQL import *
@@ -13,7 +15,8 @@ class UserRecord():
     email: str
     id: int = 0 #field(repr=False, default=0)
 
-db = coreSQL({'host': "snowflake.aad.resillion.com", 'database': "bob", 'user': "bob", 'password': "beanbagz"})
+db = coreSQL(database='bob', user='bob', password='fishfac3')
+print(db.tables)
 
 bob = UserRecord(name="bob", email="bob@chippers.org.uk")
-print(bob)
+print(dataclasses.fields(bob))

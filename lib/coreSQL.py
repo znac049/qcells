@@ -1,5 +1,7 @@
 import mysql.connector
 import logger
+import dataclasses
+import types
 
 from recordSet import *
 
@@ -52,7 +54,7 @@ class coreSQL:
     def get_list_of_tables(self):
         self.tables = []
         if self.is_connected():
-            rst = self.query("SHOW TABLES;")
+            rst = self.query("SHOW TABLES")
             col = rst.nameOf(0)
             for row in rst:
                 self.tables += [row[col],]
@@ -65,3 +67,14 @@ class coreSQL:
         return self.query("DESCRIBE {}".format(table_name))
 
     
+    def create_table(self, table_name, table_dataclass):
+        print(f"Create table {table_name}")
+        for fld in dataclasses.fields(table_dataclass):
+            print(fld)
+            ft = fld.type
+            if ft == int:
+                print("INT")
+            elif ft == str:
+                print("BLOB/STR")
+            else:
+                print("DUNNO")
